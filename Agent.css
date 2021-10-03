@@ -1,0 +1,14 @@
+.header h1{
+   text-align: center;
+    background-color: beige;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+.main button{
+  margin-left:   300px;
+  margin-top: 300px;
+}
+
+.main button:hover{
+    font-size: 30px;
+}

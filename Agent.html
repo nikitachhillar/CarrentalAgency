@@ -1,0 +1,265 @@
+<!doctype HTML>
+<?php include 'config.php'?>
+<html>
+    <head>
+        <title>Agent</title>
+        
+        <meta charset="utf-8">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="Agent.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+    </head>
+    <body>
+        <div class="header">
+            <h1> Welcome 
+            <?php
+                $user=$_SESSION['Username'];
+                $query="SELECT * from users where Username='".$user."' ";
+                $result=mysqli_query($conn,$query) or die(mysqli_error($conn));
+
+                $row=mysqli_fetch_row($result);
+                echo $row[1];
+            ?>
+                <button style="float: right; margin-right: 10px;"type="button" class="btn btn-warning" ><a href="Logout.php">Logout</a></button>
+            </h1>
+            
+        </div>
+        <div class="main">
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#add">Add New Cars</button>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#avail">View Cars</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#view">View Booked Cars</button>
+        </div> 
+            <!--Modal of new cars-->
+            <!-- The Modal -->
+           <div class="modal fade" id="add">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Add New Cars</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <form action="Cars.php" method="POST" enctype="multipart/form-data">
+                      <div class="form-group">
+                        <label for="numb">Vehicle Number:</label>
+                        <input type="text" class="form-control" placeholder="Enter Vehicle Number" id="numb"  name="numb" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="model">Vehicle Model:</label>
+                        <input type="text" class="form-control" placeholder="Enter Vehicle Model" id="model" name="model" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="capacity">Capacity:</label>
+                        <input type="number" class="form-control" placeholder="Enter Capacity " id="capacity" name="capacity" required>
+                      </div>
+                      <!--<div class="form-group">
+                        <label for="model">Image:</label>
+                        <input type="file" class="form-control" placeholder="Upload the Image" id="image" name="image" required>
+                      </div>-->
+                      <div class="form-group">
+                        <label for="rent">Rent Per Day:</label>
+                        <input type="text" class="form-control" placeholder="Enter Rent per Day " id="rent" name="rent" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary" onclick="Alert()">Submit</button>
+                  </form>
+                  </div>
+               </div>
+             </div>
+           </div>
+        <script>
+            function Alert() {
+                alert("Data entered into vehicle database.");
+            }   
+        </script> 
+        <!--Modal of view cars-->
+            <!-- The Modal -->
+           <div class="modal fade" id="avail">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Booked Cars</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                  <div class="modal-body">
+                    <div class="container">
+                            <?php 
+                                date_default_timezone_set('Asia/Kolkata');
+                                $d = date('m/d/Y h:i:s a', time());          
+                                $query2="SELECT * from vehicle order by VId asc  ";
+                                $result2=mysqli_query($conn,$query2) or die(mysqli_error($conn));
+                            ?> 
+                          <table class="table table-hover">
+                                <thead>
+                                  <tr>
+                                    <th>SNo</th>
+                                    <th>Car Number</th>
+                                    <th>Car Model</th>
+                                    <th>Capacity</th>
+                                    <th>Rent Per Day</th>
+                                    <th>Book Now</th>
+                                  </tr>
+                                </thead>
+                                 <tr>
+                                <?php while($row2=mysqli_fetch_array($result2))
+                                {
+                                     $id=$row2[0];
+                                     $number= $row2[1];
+                                     $model= $row2[2];
+                                     $capacity= $row2[3];
+                                     $rent=$row2[4];
+                                ?>
+                                <tbody>
+                                    <td><?php echo "{$id}"?></td>
+                                    <td><?php echo "{$number}"?></td>
+                                    <td><?php echo "{$model}"?></td>
+                                    <td><?php echo "{$capacity}"?></td>
+                                    <td><?php echo "{$rent}" ?></td>
+                                    <td><button type="button" data-toggle="modal" data-target="#edit" class="btn">Edit</button></td>
+                                    </tbody>
+                            </tr>
+                                <?php
+                                    }
+                                ?>
+                       </table>
+      </div>
+                  
+                  </div>
+               </div>
+             </div>
+           </div>
+        <!--Modal of edited vehicles database-->
+            <!-- The Modal -->
+           <div class="modal fade" id="edit">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Edit Details</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <form action="Update.php" method="POST" enctype="multipart/form-data">
+                      <div class="form-group">
+                        <label for="id">VId:</label>
+                        <input type="text" class="form-control" placeholder="Enter Vehicle Number" value="<?php echo "{$id}" ?>" id="numb"  name="id" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="numb">Vehicle Number:</label>
+                        <input type="text" class="form-control" placeholder="Enter Vehicle Number" value="<?php echo "{$number}" ?>" id="numb"  name="numb" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="model">Vehicle Model:</label>
+                        <input type="text" class="form-control" placeholder="Enter Vehicle Model" value="<?php echo "{$model}" ?>" id="model" name="model" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="capacity">Capacity:</label>
+                        <input type="number" class="form-control" placeholder="Enter Capacity " value="<?php echo "{$capacity}" ?>"  id="capacity" name="capacity" required>
+                      </div>
+                      <!--<div class="form-group">
+                        <label for="model">Image:</label>
+                        <input type="file" class="form-control" placeholder="Upload the Image" id="image" name="image" required>
+                      </div>-->
+                      <div class="form-group">
+                        <label for="rent">Rent Per Day:</label>
+                        <input type="text" class="form-control" placeholder="Enter Rent per Day " value="<?php echo "{$rent}" ?>" id="rent" name="rent" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Update</button>
+                  </form>
+                  </div>
+               </div>
+             </div>
+           </div>
+        <!--Modal of view booked cars-->
+            <!-- The Modal -->
+           <div class="modal fade" id="view">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Booked Cars</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                  <div class="modal-body">
+                    <div class="container">
+                            <?php 
+                                date_default_timezone_set('Asia/Kolkata');
+                                $d = date('m/d/Y h:i:s a', time());          
+                                $query1="SELECT * from booking order by BId asc  ";
+                                $result1=mysqli_query($conn,$query1) or die(mysqli_error($conn));
+                            ?> 
+                          <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th>SNo</th>
+                                <th>Name</th>
+                                <th>Mobile Number</th>
+                                <th>Car Number</th>
+                                <th>Rent Per Day</th>
+                                <th>Days</th>
+                                <th>Total Rent</th>
+                                <th>Starting Date</th>
+                              </tr>
+                            </thead>
+                             <tr>
+                            <?php 
+                            
+                            while($row1=mysqli_fetch_array($result1))
+                            {
+                                 $id=$row1[0];
+                                 $name= $row1[1];
+                                 $num= $row1[2];
+                                 $carnum= $row1[3];
+                                 $rpd=$row1[4];
+                                 $days=$row1[5];
+                                 $totalrent=$row1[6];
+                                 $date=$row1[7];
+                            ?>
+                            <tbody>
+                                <td><?php echo "{$id}"?></td>
+                                <td><?php echo "{$name}"?></td>
+                                <td><?php echo "{$num}"?></td>
+                                <td><?php echo "{$carnum}"?></td>
+                                <td><?php echo "{$rpd}" ?></td>
+                                <td><?php echo "{$days}" ?></td>
+                                <td><?php echo "{$totalrent}" ?></td>
+                                <td><?php echo "{$date}" ?></td>
+                                </tbody>
+                            </tr>
+                                <?php
+                                    }
+                                ?>
+                       </table>
+      </div>
+                  
+                  </div>
+               </div>
+             </div>
+           </div>
+    </body>
+</html>

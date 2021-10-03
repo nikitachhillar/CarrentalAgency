@@ -1,0 +1,130 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title>Car Rental Agency</title>
+        
+        <meta charset="utf-8">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="Home.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+    </head>
+    <body>
+        <div class="menu">
+            `<nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-end">
+              <!-- Brand/logo -->
+              <a class="navbar-brand" href="#">
+                <img src="Logo.png" alt="logo" style="width:60px;">
+              </a>
+
+              <!-- Links -->
+              <ul class="nav justify-content-end">
+                 <div class="home">
+                <li class="nav-item">
+                  <a class="nav-link" href="#home">Home</a>
+                </li>
+                  </div>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="modal" data-target="#Signup">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="modal" data-target="#Login">Login</a>
+                </li>
+              </ul>
+            </nav>
+        </div>
+        <div class="main">
+            <a name="home"></a>
+              <div class="text">
+                <h1>Car Rental Agency</h1>      
+                <p>Rent Your Car Now!!</p>
+              </div>
+        </div>
+       <!-- The Modal -->
+       <div class="modal fade" id="Signup">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">SignUp</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form action="Signup.php" method="POST" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" placeholder="Enter username" id="username"  name="username" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="pwd">Password:</label>
+                    <input type="password" class="form-control" placeholder="Enter password" id="pwd" name="pwd" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="type">Type:</label>
+                    <select class="form-control" id="type" name="type" required>
+                        <option>-Select-</option>
+                        <option>Agent</option>
+                        <option>Customer</option>
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+              </div>
+
+          </div>
+        </div>
+      </div>
+      
+      <!--Modal-->
+      <div class="modal fade" id="Login">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Login</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form method="post" action="Login.php" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" placeholder="Enter username " id="user" name="username" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="pwd">Password:</label>
+                    <input type="password" class="form-control" placeholder="Enter password" id="pass" name="pwd" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="type">Type:</label>
+                    <select class="form-control" id="type" name="type" required>
+                        <option>-Select-</option>
+                        <option>Agent</option>
+                        <option>Customer</option>
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </body>
+</html>

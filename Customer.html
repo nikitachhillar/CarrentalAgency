@@ -1,0 +1,131 @@
+<!doctype HTML>
+<?php include 'config.php'?>
+<html>
+    <head>
+        <title>Agent</title>
+        
+        <meta charset="utf-8">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="Agent.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+    </head>
+    <body>
+        <div class="header">
+            <h1> Welcome 
+            <?php
+                $user=$_SESSION['Username'];
+                $query="SELECT * from users where Username='".$user."' ";
+                $result=mysqli_query($conn,$query) or die(mysqli_error($conn));
+
+                $row=mysqli_fetch_row($result);
+                echo $row[1];
+            ?>
+                <button style="float: right; margin-right: 10px;"type="button" class="btn btn-warning" ><a href="Logout.php">Logout</a></button>
+            </h1>
+        </div>
+        
+        <!--Table-->
+        <?php 
+            $query1="SELECT * from vehicle order by VId asc";
+            $result1=mysqli_query($conn,$query1) or die(mysqli_error($conn));
+        ?>  
+        <div class="container">
+          <h2>Available Cars To Rent</h2>            
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>SNo</th>
+                <th>Car Number</th>
+                <th>Car Model</th>
+                <th>Capacity</th>
+                <th>Rent Per Day</th>
+                <th>Book Now</th>
+              </tr>
+            </thead>
+             <tr>
+            <?php while($row1=mysqli_fetch_array($result1))
+            {
+                 $id=$row1[0];
+                 $number= $row1[1];
+                 $model= $row1[2];
+                 $capacity= $row1[3];
+                 $rent=$row1[4];
+            ?>
+            <tbody>
+                <td><?php echo "{$id}"?></td>
+                <td><?php echo "{$number}"?></td>
+                <td><?php echo "{$model}"?></td>
+                <td><?php echo "{$capacity}"?></td>
+                <td><?php echo "{$rent}" ?></td>
+                <td><button type="button" data-toggle="modal" data-target="#book" class="btn">Book Now</button></td>
+                </tbody>
+            </tr>
+                <?php
+                    }
+                ?>
+       </table>
+      </div>
+        <!--Booking Modal-->
+        <div class="modal fade" id="book">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Booking</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <form action="Booking.php" method="POST" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="username">Name:</label>
+                    <input type="text" class="form-control" placeholder="Enter your name" id="username"  name="name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="mobile">Mobile Number:</label>
+                    <input type="tel" class="form-control" placeholder="Enter your mobile number" id="mobile" name="mobile" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="text">Vehicle Number:</label>
+                    <input type="text" class="form-control" placeholder="Vehicle Number" id="num"  name="vnum" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="days">No. Of Days:</label>
+                    <input type="number" class="form-control" placeholder="Enter no. of days" id="days" name="days" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="rent ">Rent:</label>
+                    <input type="number" class="form-control" placeholder="Rent" id="rent" name="rent" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="date ">Starting Date:</label>
+                    <input type="date" class="form-control" placeholder="Date" id="date" name="d" required>
+                  </div>  
+                  <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+              </div>
+            </div>
+       </div>
+    </body>
+</html>
